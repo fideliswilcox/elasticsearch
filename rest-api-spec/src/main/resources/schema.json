@@ -41,9 +41,6 @@
                     "type": "string",
                     "title": "If visibility of the API is set to `feature_flag` this documents the feature_flag to use"
                 },
-                "headers": {
-                  "$ref": "#/definitions/Headers"
-                },
                 "url": {
                     "$ref": "#/definitions/Url"
                 },
@@ -100,6 +97,29 @@
                     "required": [
                       "feature_flag"
                     ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "body": {
+                        "$ref": "#/definitions/Body"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "headers": {
+                        "$ref": "#/definitions/HeadersWithBody"
+                      }
+                    }
+                  },
+                  "else": {
+                    "properties": {
+                      "headers": {
+                        "$ref": "#/definitions/Headers"
+                      }
+                    }
                   }
                 }
             ],
@@ -225,6 +245,29 @@
                 }
             },
             "required": ["accept"],
+            "title": "Headers the API understands",
+            "description": "Documents the headers the API supports, at a minimum this must document the Accept header. The Content-Type header should be documented if the API supports a body"
+        },
+        "HeadersWithBody": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "accept": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "minItems": 1
+                    }
+                },
+                "content_type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "minItems": 1
+                    }
+                }
+            },
+            "required": ["accept", "content_type"],
             "title": "Headers the API understands",
             "description": "Documents the headers the API supports, at a minimum this must document the Accept header. The Content-Type header should be documented if the API supports a body"
         },
